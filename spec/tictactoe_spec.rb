@@ -1,3 +1,6 @@
+require 'spec_helper'
+require_relative '../library/tictactoe.rb'
+
 describe "TicTacToe" do
 
 	it "should make the board"do
