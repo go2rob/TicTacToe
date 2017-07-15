@@ -1,9 +1,12 @@
 require 'spec_helper'
+require 'byebug'
 require_relative '../library/tictactoe.rb'
 
 describe 'TicTacToe' do
   it 'should assign tokens to players' do
-    game = TicTacToe.new(:X, :O)
+  
+    game =TicTacToe.new(:X, :O)
+
     # TicTacToe.new.assign(:X, :O)
     expect(game.token1).to be(:X)
     expect(game.token2).to be(:O)
@@ -11,13 +14,19 @@ describe 'TicTacToe' do
   end
 
   it 'should not allow tokens to be same' do
-    # expect {game = TicTacToe.new(:X, :X)}.to raise_error("Tokens cannot be the same.")
+    expect {game = TicTacToe.new(:X, :X)}.to raise_error("Tokens cannot be the same.")
   end
 
   it 'should allow placing a token in a cell' do
-    
+    game = TicTacToe.new(:X, :O)
+    game.place(1, 2, :X)
+    expect(game.return_element(1,2)).to eq(:X)
   end
-  it 'should not allow placing token in a occupied cell'
+  it 'should not allow placing token in a occupied cell'#do
+  #   game = TicTacToe.new(:X, :O)
+    
+  #   expect 
+  # end
   it 'should alternate between players'
   it 'should not allow a player to play twice'
   it 'should not allow player 2 to play first'

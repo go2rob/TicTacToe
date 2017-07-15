@@ -1,37 +1,28 @@
+require 'byebug'
 class TicTacToe
+  attr_accessor :token1, :token2, :board
+ 
   def initialize(token1, token2)
+    raise "Tokens cannot be the same." if token1 == token2     
     @token1 = token1
     @token2 = token2
-    # @board = Array.new(3) { Array.new(3) }
+    @board = Array.new(3) { Array.new(3) }
   end
 
-  # def self.class.assign
-  #   s
-  # end
-
-  # def assign(x,y)
-  #   @token1 = x
-  #   @token2 = y
-  # end
-  # def token1(x)
-  #   @token1 = x
-  # end
-  # def token2(y)
-  #   @token2 = y
-  # end
-
-
-# place(2,2)
+  def place(x, y, z)
+    if @board[x][y] == nil
+      @board[x][y] = z
+    else
+     raise "This cell is occupied"
+    end
+  end
+  def return_element(x, y)
+    @board[x][y]
+  end
 end       
-
-
-# class TicTacToe
-#   def initialize
-#     @player1 = :player1
-#     @player2 = :player2
-#     @board = Array.new(3) { Array.new(3) }
+# class PlayingPart < TicTacToe
+#   attr_accessor :board
+#   def place(x, y, z)
+#     @board[x][y] = z
 #   end
-
-# # place(2,2)
-# end       
-
+# end
