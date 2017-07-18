@@ -31,15 +31,22 @@ class TicTacToe
     @observer = observer
   end
 
-  def board
-    @board
+  def result(token)
+    if(check_for_draw(@board))
+      :"Match is draw" 
+    else
+    :"#{token} is winner" #if(check_for_linear_win(@board) || check_for_linear_win(@board.transpose) || check_for_diagonal_win(@board) || check_for_diagonal_win(@board.reverse))
+  end
   end
 
   private
+
   def check_for_linear_win(board)
     is_win = board.any? { |row| row.all? { |t| @current_token == t }}
     @observer.call(WinEvent.new(@current_token)) if(is_win)
+
   end
+
   def check_for_diagonal_win(board)
 
     is_win = board.each_with_index.map { |row, index| row[index] if(@current_token ==  row[index]) }.all?
@@ -47,15 +54,12 @@ class TicTacToe
   end
 
   def check_for_draw(board)
-    is_occupied = board.all?{ |t| t.all? }
+    is_occupied = board.all?{ |row| row.all? }
     if(is_occupied && !check_for_linear_win(board) && !check_for_diagonal_win(board))
       @observer.call(DrawEvent.new(@board))
     end
   end 
 end
-
-
-
 
 class WinEvent
   def initialize(winner) @winner = winner; end
@@ -68,12 +72,3 @@ class DrawEvent
   end
   attr_reader :draw
 end
-
-# class Position
-#   def initialize(x, y)
-#     @x = x
-#     @y = y
-#   end
-
-#   attr_reader :x, :y
-# end
