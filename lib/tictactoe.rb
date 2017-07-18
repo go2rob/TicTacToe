@@ -14,11 +14,12 @@ class TicTacToe
     raise "Invalid turn." if(@current_token.nil? && token != token1)
     raise "Invalid turn." if (@current_token == token)
     raise "This cell is occupied" unless(@board[position.x][position.y].nil?)
+
     @board[position.x][position.y] = token
     @current_token = token
     check_for_linear_win(@board) || check_for_linear_win(@board.transpose)
-    check_for_diagonal_win(@board) || check_for_diagonal_win(@board.reverse)
-
+    check_for_diagonal_win(@board) || check_for_diagonal_win(@board.reverse)  
+    check_for_draw(@board)
 
   end
   
@@ -36,20 +37,36 @@ class TicTacToe
 
   private
   def check_for_linear_win(board)
-
     is_win = board.any? { |row| row.all? { |t| @current_token == t }}
     @observer.call(WinEvent.new(@current_token)) if(is_win)
   end
   def check_for_diagonal_win(board)
+
     is_win = board.each_with_index.map { |row, index| row[index] if(@current_token ==  row[index]) }.all?
     @observer.call(WinEvent.new(@current_token)) if(is_win)
-
   end
+
+  def check_for_draw(board)
+    is_occupied = board.all?{ |t| t.all? }
+    if(is_occupied && !check_for_linear_win(board) && !check_for_diagonal_win(board))
+      @observer.call(DrawEvent.new(@board))
+    end
+  end 
 end
+
+
+
 
 class WinEvent
   def initialize(winner) @winner = winner; end
   attr_reader :winner
+end
+
+class DrawEvent
+  def initialize(draw)
+    @draw = draw
+  end
+  attr_reader :draw
 end
 
 # class Position

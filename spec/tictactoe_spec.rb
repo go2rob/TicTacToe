@@ -81,7 +81,6 @@ RSpec.describe 'TicTacToe' do
       game.place(p3x3, :O)
       game.place(p1x3, :X)
 
-
       expect(is_win).to be_truthy
 
 
@@ -108,11 +107,40 @@ RSpec.describe 'TicTacToe' do
   end
 
   context 'Draw Scenario' do
-    it 'should declare draw when there are no free cells and there is no winner'do
     
-  end
-  end
+    it 'should declare draw when there are no free cells and there is no winner'do
+      is_draw = false
+      game.add_listener { |event|
+        expect(event).to be_a(DrawEvent)
+        is_draw = true  
 
+        # expect(event.draw).to raise_error("Match is draw.")
+
+      }
+      game.place(p2x2, :X)
+      game.place(p1x2, :O)
+      game.place(p1x1, :X)
+      game.place(p3x3, :O)
+      game.place(p2x1, :X)
+      game.place(p3x1, :O)
+      game.place(p3x2, :X)
+      game.place(p2x3, :O)
+      game.place(p1x3, :X)
+      # game.place(p1x1, :X)
+      # game.place(p3x1, :O)
+      # game.place(p3x3, :X)
+      # game.place(p1x3, :O)
+      # game.place(p1x2, :X)
+      # game.place(p2x1, :O)
+      # game.place(p3x2, :X)
+      # game.place(p2x3, :O)
+      # game.place(p2x2, :X)
+    
+      
+      
+      expect(is_draw).to be_truthy
+    end
+  end
 end
 
 # describe "TicTacToe" do
